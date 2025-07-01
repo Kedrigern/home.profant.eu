@@ -1,0 +1,15 @@
+/* Skryje dollar znak při kopírování */
+.highlight .gp {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Alternativně pro všechny prompt znaky */
+.highlight .go {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
