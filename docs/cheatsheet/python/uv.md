@@ -2,6 +2,8 @@
 
 An extremely fast Python package and project manager, written in Rust. It replaces pip, pipx, PyEnv and Poetry.
 
+TODO: Performance comparation
+
 ## uvx
 
 Via `uvx` you can run packages in any Python version without manual installation of the package.
@@ -151,6 +153,8 @@ Now all dependencies are in one tree. So you can:
 - have workspace-level dependencies, like ruff, pytest etc.
 - update everything from workspace: `uv sync -U`
 
+TODO: Deeper structure?
+
 ### requires-python vs .python-version
 
 requires-python: range of compatible Python versions  
@@ -162,6 +166,22 @@ requires-python: range of compatible Python versions
 So you always need `requires-python` in `pyproject.toml`. If you need a special version of Python to run (for example, for performance reasons), add a `.python-version` file beside `pyproject.toml`.
 
 ## Full examples
+
+### Testing compatibility
+
+You want test your app in unreleased python 3.14 with older version of lib? (current httpx 0.28.*) No problem:
+
+```console
+$ uvx --python 3.14 --with httpx==0.25.0 cowsay -t "Hello World
+```
+
+### Quick acces to funcionality
+
+Run repl in specific python version with polars:
+
+```
+uv run --with polars --python 3.13  python
+```
 
 ### FastAPI
 
@@ -243,3 +263,9 @@ uv also makes available many non-Python apps. For example, git-cliff is a Rust a
 ```console
 uvx git-cliff ...
 ```
+
+(Of course this is not uv specific, but with uv fast it is interesting)
+
+## Python and PATH
+
+uv installs Python versions in `.local/share/uv/python/`. Unlike pyenv, it doesn’t automatically add the installed Python executables to your system’s `PATH`. This means you can’t just run python directly unless you’ve set up a symlink or manually adjust your PATH.
