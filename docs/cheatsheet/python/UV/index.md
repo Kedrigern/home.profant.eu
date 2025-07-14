@@ -136,24 +136,7 @@ $ uv publish --index <index_name> -u "user" -p "passwd"
 
 ### Workspace
 
-```console
-$ mkdir -p workspace/subpack && cd workspace
-$ uv init -q --vcs none --bare --no-pin-python .
-$ uv add -q --dev "ruff==0.10.0"	# old version of ruff
-$ cd subpack
-$ uv init -q --vcs none --package --no-pin-python .
-$ uv add -q "cowsay==6.0"
-$ uv tree --outdated # same output as in workspace dir
-$ cd ..
-$ uv tree --outdated # same output as in package dir
-```
-
-Now all dependencies are in one tree. So you can:
-
-- have workspace-level dependencies, like ruff, pytest etc.
-- update everything from workspace: `uv sync -U`
-
-TODO: Deeper structure?
+[uv workspace](workspace.md)
 
 ### requires-python vs .python-version
 
