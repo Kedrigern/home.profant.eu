@@ -29,6 +29,7 @@ def where_is(point: Point) -> None:
 
 ```python
 from enum import Enum
+
 class Color(Enum):
     RED = 0
     GREEN = 1
