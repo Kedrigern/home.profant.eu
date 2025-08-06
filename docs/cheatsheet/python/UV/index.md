@@ -29,7 +29,7 @@ $ uv run --with httpx==0.25.0 python -c "import httpx; print(httpx.__version__)"
 ```console
 $ uv python install 3.14
 
-$ uv init                # create pyproject.toml, initialize venv and git
+$ uv init                 # create pyproject.toml, initialize venv and git
 $ uv add requests
 $ uv add --dev ruff pytest
 $ uv run <script>         # run script or module
@@ -44,12 +44,55 @@ $ uv sync                 # install dependencies from lockfile
 $ uv add <package>
 $ uv remove <package>
 $ uv add --dev <package>
-$ uv add -r requirements.txt  # add dependencies from requirements.txt
+$ uv add -r requirements.txt                         # add dependencies from requirements.txt
 
-$ uv tree                 # dependency tree
+$ uv pip list --outdated --format json
+$ uv tree                                            # dependency tree
 $ uv tree --depth 0 --outdated --package <package>   # info about package
 # handy are also args: --no-dev and --only-dev
 ```
+
+### Upgrade package
+
+```console
+$ uv init --bare
+$ uv add "colorama==0.4.5"  # latest 0.4.6
+$ uv sync -U                # nothing to do, because explicit version of dependency
+$ uv add "colorama<1"
+$ uv sync -U                # install 0.4.6
+```
+
+### uv.lock
+
+#### uv sync
+
+- Behaves smartly for developers.   
+- It does not fail if `uv.lock` is missing; instead, it calls `uv lock` itself to create it.  
+- If uv.lock is outdated, it updates it according to pyproject.toml.  
+- Commands like `uv run`, `uv add`, and `uv remove` also ensure the environment is synchronized.  
+
+#### uv sync --locked
+
+- This is the strict variant.   
+- It requires the uv.lock file to exist.  
+- It requires pyproject.toml and uv.lock to be in sync.   
+- Equivalent to `poetry lock --check` and `poetry install`
+
+#### uv sync --frozen
+
+- ignore that `pyproject.toml` has changed, use only frozen `uv.lock`
+
+- > Instead of checking if the lockfile is up-to-date, **uses the versions in the lockfile as the source of truth**. If the lockfile is missing, uv will exit with an error. If the pyproject.toml includes changes to dependencies that have not been included in the lockfile yet, they will not be present in the environment.
+
+```console
+$ uv init --bare
+$ uv add "colorama"
+$ rm uv.lock
+$ uv sync --frozen          # error
+$ uv sync --locked          # error
+$ uv sync                   # recreate uv.lock
+```
+
 
 ### pyproject.toml
 
