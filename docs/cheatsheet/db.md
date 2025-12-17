@@ -4,22 +4,45 @@
 
 ## PostgreSQL
 
-```bash
-sudo -S -u postgres psql   # pq super user
-```
+`$` - shell, `#` - psql
 
+#### PG super user
 ```console 
-$ pwd
-$ sudo -S -u postgres psql   # pq super user
+$ sudo -S -u postgres psql
 ```
 
+#### DB and users
+
+```console
+# CREATE USER my_user WITH PASSWORD 'my_passwd';
+# CREATE DATABASE my_db OWNER my_user;
+# ALTER USER user_name WITH PASSWORD 'new_password';
+```
+
+#### PSQL
+
+```console
+# \l         -- list dbs
+# \c db_name -- connect to db
+# \dt        -- list tables
+# \d table_name -- describe table
+# \q         -- quit
+```
+
+#### Backup and restore
+
+```console
+$ pg_dump my_db > my_db
+$ pg_dumpall > outfile
+$ psql dbname < my_db
+```
+
+#### PG setup
 ```console
 $ sudo systemctl enable postgresql
 $ sudo postgresql-setup --initdb --unit postgresql
 $ sudo systemctl start postgresql
 $ sudo -u postgres psql
-# CREATE USER my_user WITH PASSWORD 'my_passwd';
-# CREATE DATABASE my_db OWNER my_user;
 ```
 
 Config: `/var/lib/pgsql/data/pg_hba.conf`:
@@ -33,4 +56,4 @@ host    all             all             127.0.0.1/32            ident
 host    all             all             ::1/128                 ident 
 ```
 
-Change column `method` from `ident` to `md5`. 
+Change column `method` from `ident` to `md5`.
