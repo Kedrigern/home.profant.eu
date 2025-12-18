@@ -2,6 +2,17 @@
 
 ## SQL
 
+```sql
+SELECT col1 , col2 FROM table_name WHERE condition ORDER BY col1 DESC LIMIT 10;
+INSERT INTO table_name (col1, col2) VALUES (val1, val2);
+UPDATE table_name SET col1 = val1, col2 = val2 WHERE condition;
+DELETE FROM table_name WHERE condition;
+CREATE TABLE table_name (col1 datatype, col2 datatype, ...);
+ALTER TABLE table_name ADD column_name datatype;
+ALTER TABLE table_name DROP COLUMN column_name; 
+```
+
+
 ## PostgreSQL
 
 `$` - shell, `#` - psql
