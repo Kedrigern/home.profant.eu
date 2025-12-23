@@ -11,6 +11,7 @@
 - k9s
 - az
 - gh
+- qpdf
 - tmux
 - zellij
 - ekphos
