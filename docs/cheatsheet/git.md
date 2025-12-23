@@ -50,4 +50,27 @@ $ git log --graph --decorate --oneline
 * f430b2e Initial commit
 ```
 
+## Multiple keys
+
+```console
+$> cat ~/.ssh/config
+# Work account
+Host github.com-work
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/my_company_key_ed25519
+
+# Personal account
+Host github.com-personal
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/my_personal_key_ed25519
+```
+
+Then use the corresponding host when cloning repositories:
+
+```console
+$ git clone git://github.com-work/company/your-work-repo.git
+```
+
 ## Github

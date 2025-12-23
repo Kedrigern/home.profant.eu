@@ -5,30 +5,34 @@
 - fish
 - bat
 - nvim
-- btom
+- btop
+- fzf
 - ghostty
 - k9s
+- az
+- gh
+- tmux
+- zellij
+- ekphos
 
 ## Python
 
 - uv
 
-## IDE
+## IDE and dev
 
 - VScode
 - zed
 - Restfox
 - meld
 - podman desktop
+- headlamp
+- devToolbox
+- Azure storage explorer
 
 ## Games
 
 - vcmi
 - steam
 - lutris
-- gog 
-
-## Azure
-
-- seabird
-- Azure storage explorer
+- gog
