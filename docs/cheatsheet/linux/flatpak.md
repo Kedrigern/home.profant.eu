@@ -19,3 +19,4 @@ Installed apps via flatpak at Fedora 43:
 - Podman Desktop
 - Gimp
 - Dev Toolbox
+- Typstify
