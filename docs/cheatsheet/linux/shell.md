@@ -60,30 +60,33 @@ math '(5 + 2) * 4'
 sudo dnf install ghostty fish zellij wl-clipboard git
 ```
 
-In `~/.config/ghostty/config`:
+Set padding to zero, because zellij has own padding, `~/.config/ghostty/config`:
 
 ```
 window-padding-x = 0
 window-padding-y = 0
 ```
 
-In `~/.config/zellij/config.kdl`:
+Set `fish` as default shell for zellij, in `~/.config/zellij/config.kdl`:
 
-```
+```kdl
 default_shell "fish"
 copy_on_select true
 ```
 
-In `~/.config/fish/config.fish`:
+Aliases and defautl editor for fish, in `~/.config/fish/config.fish`:
 
 ```fish
+set fish_greeting       # disable greeting lines
+set -gx EDITOR nvim
+  
 if status is-interactive
     alias z="zellij"
     alias za="zellij attach"
 end
 ```
 
-In `~/.config/fish/functions/fish_prompt.fish`:
+Set the promt to be minimalistic if we are in zellij, edit `~/.config/fish/functions/fish_prompt.fish`:
 
 ```fish
 function fish_prompt --description 'Write out the prompt'
@@ -123,7 +126,7 @@ function fish_prompt --description 'Write out the prompt'
 end
 ```
 
-In `~/.config/fish/functions/fish_title.fish`:
+Title of window or zellij pane, edit `~/.config/fish/functions/fish_title.fish`:
 
 ```fish
 function fish_title
@@ -174,11 +177,11 @@ Zellij klávesy (výchozí):
 - `Alt + šipky` = Pohyb mezi panely (často funguje i bez prefixu, záleží na configu).
 
 | Akce	| Příkaz (Fish) |	Alias (pokud máte) |
-|--------------------------|------------------|---------------------|
-|Start (pojmenovaná) |	zellij -s nazev | 	– |
-|Start (random)	 |zellij | 	z |
-|Seznam běžících	|zellij ls	|–|
-|Připojit (menu)	| zellij attach|	za|
-|Připojit (jméno)	| zellij a nazev	|za nazev|
-|Zrušit (zvenku)	|zellij d nazev	|–|
-|Odpojit (zevnitř)	|Ctrl + o -> d|	–|
+|--------------------|------------------|----|
+|Start (pojmenovaná) | zellij -s <name> | – |
+|Start (random)	     | zellij           | z |
+|Seznam běžících	   | zellij ls	      | – |
+|Připojit (menu)	   | zellij attach    |	za |
+|Připojit (jméno)	   | zellij a <name>	| za <name> |
+|Zrušit (zvenku)	   | zellij d <name>	| – |
+|Odpojit (zevnitř)	  |Ctrl + o -> d    |	– |
