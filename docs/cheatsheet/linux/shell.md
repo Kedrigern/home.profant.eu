@@ -12,6 +12,18 @@
 
 ## Bash
 
+``~/.bashrc`:
+
+```bash
+export EDITOR=nvim
+export PATH="$HOME/.cargo/bin:$PATH"
+if [[ $- == *i* ]] && [ -x /usr/bin/fish ]; then
+    # run fish if interactive shell, 'exec' mean fish replace bash
+    exec fish
+fi
+```
+
+
 ```bash
 for i in $(seq 1 10);
 do
