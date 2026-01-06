@@ -1,5 +1,6 @@
 ---
 title: "Network"
+icon: lucide/network
 ---
 
 ## Basics
@@ -19,9 +20,17 @@ ip addr show tailscale0
 tailscale ping <other-device>
 ```
 
+```powershell
+winget install Tailscale.Tailscale
+```
+
 ## Desktop sharing
 
 Server: [Sunshine](https://github.com/LizardByte/Sunshine)
 Client: [Moonlight](https://moonlight-stream.org/)
 
 Great with combination with Tailscale for secure access over the internet. Even for gaming.
+
+```powershell
+winget install LizardByte.Sunshine
+```

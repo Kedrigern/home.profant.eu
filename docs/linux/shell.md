@@ -1,5 +1,7 @@
-# Shell
-
+---
+title: Shell
+icon: fontawesome/solid/terminal
+---
 
 ## Comparasion
 

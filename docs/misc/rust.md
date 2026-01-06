@@ -1,4 +1,7 @@
-# Rust
+---
+title: Rust
+icon: fontawesome/brands/rust
+---
 
 ## Ecosystem
 

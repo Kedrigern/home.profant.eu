@@ -1,5 +1,8 @@
 ---
 title: Intro
+tags:
+  - data
+  - dbx
 ---
 
 ### Databases

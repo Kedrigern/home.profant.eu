@@ -1,3 +1,6 @@
+---
+icon: fontawesome/brands/python
+---
 
 ```python
 milion: int = 1_000_000_000

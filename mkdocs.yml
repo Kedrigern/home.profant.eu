@@ -11,6 +11,7 @@ theme:
     - content.tabs.link
     - search.highlight
     - toc.follow
+    - navigation.indexes
   palette:
     - scheme: default
       primary: indigo
@@ -44,3 +45,12 @@ markdown_extensions:
 
 extra_css:
   - stylesheets/extra.css
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Kedrigern/
+    - icon: fontawesome/brands/mastodon
+      link: https://mastodon.pirati.cz/deck/@keddie
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/ondrej-profant/

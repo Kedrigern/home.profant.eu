@@ -1,4 +1,7 @@
-# Linux
+---
+title: Linux
+icon: fontawesome/brands/linux
+---
 
 `ls` → `eza`, `mv`, `cp`, `mkdir`, `tree`, `grep`
 

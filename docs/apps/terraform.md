@@ -1,5 +1,7 @@
-# Terraform 
-
+---
+title: "Terraform / OpenTofu"
+icon: simple/terraform
+---
 Terraform resp. OpenTofu is a tool for IaC.
 
 ## Usage

@@ -1,4 +1,7 @@
-# Windows
+---
+title: "Windows"
+icon: fontawesome/brands/windows
+---
 
 ## local user managment
 

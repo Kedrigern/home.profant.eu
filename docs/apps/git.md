@@ -1,4 +1,7 @@
-# Git
+---
+title: Git
+icon: fontawesome/brands/git-alt
+---
 
 ```console
 $ git init

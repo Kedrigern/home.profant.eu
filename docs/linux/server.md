@@ -1,4 +1,7 @@
-# Server
+---
+title: Server
+icon: fontawesome/solid/server
+---
 
 ## Setup proxy and certbot
 

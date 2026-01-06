@@ -1,5 +1,7 @@
-# PDF
-
+---
+title: PDF
+icon: fontawesome/solid/file-pdf
+---
 Mass decrypt and concat pdfs via fish:
 
 ```console

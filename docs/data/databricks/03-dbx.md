@@ -41,6 +41,25 @@ Data plane: store data, managed by user (cloud storage like S3, ADLS, GCS)
 
 3 namespace: `<catalog>.<schema>.<table>`
 
+To access a specific table, the user must be granted `SELECT` on the table itself, `USE SCHEMA` on the containing schema, and `USE CATALOG` on the parent catalog. This provides just enough access for read operations without overprovisioning.
+
+#### Delta sharing
+
+A Delta Sharing identifier is a unique string used in Databricks-to-Databricks sharing to identify a recipient's Unity Catalog metastore. This identifier allows the data provider to grant access to shared data.
+
+The format of the sharing identifier is: `<cloud>:<region>:<uuid>`
+
+
+Example: `aws:us-west-2:19a84bee-54bc-43a2-87de-023d0ec16016`
+
+In this example:
+
+- `aws`: represents the cloud provider (Amazon Web Services).
+- `us-west-2`: represents the specific AWS region.
+- `19a84bee-54bc-43a2-87de-023d0ec16016`: is the Universally Unique Identifier (UUID) of the recipient's Unity Catalog metastore.
+
+Recipients can obtain their sharing identifier from their Databricks workspace using Catalog Explorer or by running a SQL query like `SELECT CURRENT_METASTORE();`. This identifier is then provided to the data provider, who uses it to create a recipient and grant access to shares.
+
 ### Git
 
 Version control for notebooks and code.
@@ -138,6 +157,7 @@ spark
 
 Force refresh: `REFRESH STREAMING TABLE my_table_name`
 
+By default, if you don’t provide any trigger interval, the data will be processed every half second. This is equivalent to `trigger(processingTime=”500ms")`
 
 ##### Metadata and schema mismatches
 
@@ -270,6 +290,8 @@ Databricks Assets Bundles (DABs):
 
 Delta Live Tables (DLT) has been recently renammed to Lakeflow Declarative Pipeline, 
 
+**Databricks Connect** is a client library for the Databricks Runtime that allows you to connect popular IDEs.
+
 ## 4. Sources
 
 ### Jobs
@@ -279,12 +301,6 @@ Jobs are workflows, there are divided into **tasks**. Tasks are independent unit
 Jobs and tasks has input parameters, output parameters, and dependencies.
 
 Jobs can be triggered manually or automatically based on schedules, or even triggered by events. For example triggered by update some tables. There are even condition triggers.
-
-## 4. Questions
-
-
-https://www.testpreplab.com/Databricks-Certified-Data-Engineer-Associate-free-practice-test
-https://www.examcatalog.com/exam/databricks/certified-data-engineer-associate/
 
 ## 5. Sources
 
