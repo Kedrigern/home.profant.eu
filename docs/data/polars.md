@@ -1,5 +1,6 @@
 ---
 title: "Polars"
+icon: simple/polars
 ---
 
 Extremely fast DataFrame library for Python and Rust. It uses:
