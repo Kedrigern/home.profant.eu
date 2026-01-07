@@ -3,6 +3,8 @@ title: Server
 icon: fontawesome/solid/server
 ---
 
+Useful thinks for linux server setup.
+
 ## Setup proxy and certbot
 
 1) Setup domain to target your server IP.

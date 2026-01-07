@@ -16,12 +16,14 @@ Databricks is a commercial solution called a lakehouse (combination of data lake
 	- Databricks prepares clusters for you
 	- there is an option for serverless compute (can be tricky to manage costs)
 
+**Control plane** (orchestration) and **data plane** (your data) are separated. So your data are stored in your cloud and Databricks only manages metadata and compute, but cluster itself runs in your cloud account too.
+
 Jobs (workflows): automate data pipelines.
 Lakeflow connect: integrates with various data sources (files, cloud storage, Kafka, etc.).
 Supports batch, incremental, and streaming modes.
 
 Your data are organized in **workspace**. Main entities in workspace are:
-- **notebooks**: interactive code cells
+- **notebooks**: interactive code cells, syntax: Python, SQL, Markdown
 - **jobs**: workflows, there are divided into **tasks**.
 - **tables**: structured data
 
@@ -42,6 +44,8 @@ Data plane: store data, managed by user (cloud storage like S3, ADLS, GCS)
 3 namespace: `<catalog>.<schema>.<table>`
 
 To access a specific table, the user must be granted `SELECT` on the table itself, `USE SCHEMA` on the containing schema, and `USE CATALOG` on the parent catalog. This provides just enough access for read operations without overprovisioning.
+
+**Catalog Explorer**: web UI for browsing catalogs, schemas, tables, and views.
 
 #### Delta sharing
 
@@ -66,62 +70,14 @@ Version control for notebooks and code.
 
 Databricks assets bundles
 
-### Ingestion
+Cannot delete branch
 
-Basic info:
 
-```SQL
-SELECT current_catalog(), current_schema(); -- catalog/schema info
-LIST <path>;                    -- list files
-SELECT * FROM parquet.`<path>`; -- read Parquet file directly
-```
 
-#### Batch
-
-Tradiotinaly CTAS (`CREATE TABLE AS`, `spark.read.load()`) aproach is used for ingestion. It reads all rows (entire data) each time. It is not efficient for large data that changes slowly.
-
-```SQL
-CREATE TABLE new_table AS
-SELECT *
-FROM read_files(
-    <path_to_files>,
-    format => '<file_type>',    -- JSON, CSV, XML, TEXT, BINARYFILE, PARQUET, AVRO
-    <other_format_specific_options>
-);
-```
-
-#### Incremental batch
-
-Only new data are ingested. For this is used:
-
-- `COPY INTO`
-- spark.readStream (Auto loader with time trigger)
-- Declarative pipeline: `CREATE OR REFRESH STREAMING TABLE`
-
-```SQL
-CREATE TABLE new_table_2;   -- Create empty table
-
-COPY INTO new_table_2
-    FROM '<dir_path>'
-    FILEFORMAT = <file_type>
-    FORMAT_OPTIONS(<options>)
-    COPY_OPTIONS(<options>)
-
---- better approach: ---
-
-CREATE OR REFRESH STREAMING TABLE new_table_3
-SCHEDULE EVERY 1 WEEK
-AS SELECT *
-FROM STREAM read_files(...);-- e.g., 'mergeSchema' = 'true'
-```
-
-Automatically skip already ingested files based on checkpointing. Operation is idempotent.
-
-Autoloader is more modern than COPY INTO.
 
 #### Streaming
 
-Continously ingests new data as it arrives. Suitable for real-time data processing.
+Continously ingests new data as it arrives. Suitable for real-time data processing. Default interval half second (0.5s).
 
 - `spark.readStream` (autoloader with continous trigger)
 - Declarative pipeline trigger mode continous
@@ -302,6 +258,10 @@ Jobs and tasks has input parameters, output parameters, and dependencies.
 
 Jobs can be triggered manually or automatically based on schedules, or even triggered by events. For example triggered by update some tables. There are even condition triggers.
 
+
+### Misc
+
+Databricks Connect:" is a client library for the Databricks Runtime that allows you to connect popular IDEs (like PyCharm, VS Code, Jupyter Notebooks) to Databricks clusters. This enables you to write and test code locally while leveraging the power of Databricks for execution.
 ## 5. Sources
 
 TODO:

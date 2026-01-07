@@ -1,10 +1,12 @@
 ---
-title: Intro
+title: Basic concecpt around DataBricks
 icon: simple/databricks
 tags:
   - data
   - dbx
 ---
+
+Basic concepts for working with data in Databricks.
 
 ### Databases
 

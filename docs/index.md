@@ -1,4 +1,8 @@
-# Home
+---
+title: Home
+icon: fontawesome/solid/home
+---
+
 
 <style>
 @media (max-width: 600px) {
@@ -52,4 +56,3 @@
     </a>
   </div>
 </div>
-

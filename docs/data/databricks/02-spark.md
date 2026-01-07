@@ -1,10 +1,15 @@
 ---
-title: "PySpark"
+title: "Spark"
 ---
 
 Spark is an Apache technology for distributed computing, even on weak hardware. It uses JVM and Scala. PySpark is the Python interface to it.
 
 Uses map-reduce: tasks are split, processed in parallel, and results are combined. Designed for clusters and large datasets.
+
+PySpark allows two main options for working with data:
+
+- SQL queries (via temporary views).
+- DataFrame API (Pythonic, lazy evaluation).
 
 ### Comparison to other solutions
 
@@ -19,14 +24,8 @@ Simple rules:
 
 ![Data process technology comparasion](./img/comparasion.png)
 
-### Basic functionalities
 
-PySpark allows two main options for working with data:
-
-- SQL queries (via temporary views).
-- DataFrame API (Pythonic, lazy evaluation).
-
-### SQL
+## SQL
 
 Create a temporary view for SQL queries:
 
@@ -71,7 +70,60 @@ regexp_extract(email, "(?<=@).+", 0)
 CAST col AS STRING
 ```
 
-#### User define  d functions (UDFs)
+### Ingestion
+
+Basic info:
+
+```SQL
+SELECT current_catalog(), current_schema(); -- catalog/schema info
+LIST <path>;                    -- list files
+SELECT * FROM parquet.`<path>`; -- read Parquet file directly
+```
+
+#### Batch
+
+Tradiotinaly CTAS (`CREATE TABLE AS`, `spark.read.load()`) aproach is used for ingestion. It reads all rows (entire data) each time. It is not efficient for large data that changes slowly.
+
+```SQL
+CREATE TABLE new_table AS
+SELECT *
+FROM read_files(
+    <path_to_files>,
+    format => '<file_type>',    -- JSON, CSV, XML, TEXT, BINARYFILE, PARQUET, AVRO
+    <other_format_specific_options>
+);
+```
+
+#### Incremental batch
+
+Only new data are ingested. For this is used:
+
+- `COPY INTO`
+- spark.readStream (Auto loader with time trigger)
+- Declarative pipeline: `CREATE OR REFRESH STREAMING TABLE`
+
+```SQL
+CREATE TABLE new_table_2;   -- Create empty table
+
+COPY INTO new_table_2
+    FROM '<dir_path>'
+    FILEFORMAT = <file_type>
+    FORMAT_OPTIONS(<options>)
+    COPY_OPTIONS(<options>)
+
+--- better approach: ---
+
+CREATE OR REFRESH STREAMING TABLE new_table_3
+SCHEDULE EVERY 1 WEEK
+AS SELECT *
+FROM STREAM read_files(...);-- e.g., 'mergeSchema' = 'true'
+```
+
+Automatically skip already ingested files based on checkpointing. Operation is idempotent.
+
+Autoloader is more modern than COPY INTO.
+
+### User defined functions (UDFs)
 
 ```sql
 CREATE [OR REPLACE] FUNCTION function_name ( [ parameter_name data_type [, ...] ] )
@@ -85,11 +137,11 @@ RETURNS INTEGER
 RETURN value +1;
 ```
 
-### Python
+## Python
 
 DataFrames are lazy, so every operation is stored in a directed acyclic graph (DAG) and evaluated only with operations like: `save`, `show`, `display` etc.
 
-#### Load and save
+### Load and save
 
 ```python
 from pyspark.sql import SparkSession
@@ -123,7 +175,7 @@ df1.write.mode("overwrite").saveAsTable("table_name")
 df2 = spark.table("table_name") # load table
 ```
 
-#### Select
+### Select
 
 ```python
 from pyspark.sql.functions import col, split, to_timestamp, when
@@ -158,7 +210,7 @@ df = df.withColumns({
 df = df.drop('column1', 'column2', 'column3')
 ```
 
-#### Arrays 
+### Arrays 
 
 ```sql
 SELECT exists(array(1, 2, 3), x -> x % 2 == 0); -- Result: true, check if any even number exists
@@ -167,14 +219,14 @@ SELECT forall(array(1, 2, 3), x -> x % 2 == 0); -- Result: false, Tests whether 
 SELECT transform(array(1, 2, 3), x -> x * x); -- Result: [1,4,9], square each element
 ```
 
-#### Joins
+### Joins
 
 ```python
 df3.join()
 df3.join(df, on=df1["col1_id"] == df2["col_link_id"], how="inner")
 ```
 
-#### Testing
+### Testing
 
 ```python
 from pyspark.testing.utils import assertDataFrameEqual, assertSchemaEqual
@@ -188,6 +240,16 @@ assertDataFrameEqual(df1, df2)
 
 ### Miscellaneous
 
-The `OPTIMIZE` command compacts small files into larger ones for better access patterns. `Z-Order` indexing further sorts data based on specific columns to improve query pruning. Both operations require substantial computational resources for scanning and writing data. Therefore, compute-optimized resources provide the necessary CPU power and parallelism to efficiently process these tasks. While storage and memory are important, the main bottleneck during optimization is CPU-intensive compute operations.
+The `OPTIMIZE` command **compacts small files into larger ones** for better access patterns. `Z-Order` indexing further sorts data based on specific columns to improve query pruning. Both operations require substantial computational resources for scanning and writing data. Therefore, compute-optimized resources provide the necessary CPU power and parallelism to efficiently process these tasks. While storage and memory are important, the main bottleneck during optimization is **CPU-intensive compute operations**. Operation is **idempotent**.
+
+```SQL
+OPTIMIZE table_name [FULL] [WHERE predicate] [ZORDER BY (col_name1 [, ...] ) ]
+```
 
 Running the `VACUUM` command on a Delta table deletes the unused data files older than a specified data retention period. As a result, you lose the ability to time travel back to any version older than that retention threshold.
+
+```SQL
+VACUUM table_name { { FULL | LITE } | DRY RUN } [...]
+```
+
+The retention period is fixed at **7 days**.

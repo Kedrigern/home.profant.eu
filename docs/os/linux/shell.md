@@ -3,6 +3,8 @@ title: Shell
 icon: fontawesome/solid/terminal
 ---
 
+> Where is the shell, there is a way.
+
 ## Comparasion
 
 |  Bash | Fish | Note |
