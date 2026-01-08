@@ -1,6 +1,11 @@
 ---
 title: SQL
 icon: fontawesome/solid/database
+tags:
+  - data
+  - database
+  - sql
+  - postgresql
 ---
 
 ```sql

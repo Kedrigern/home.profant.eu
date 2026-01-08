@@ -1,6 +1,9 @@
 ---
 title: Git
 icon: fontawesome/brands/git-alt
+tags:
+  - devops
+  - cvs
 ---
 
 ```console

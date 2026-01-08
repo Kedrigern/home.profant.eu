@@ -1,4 +1,7 @@
-# Flatpak
+---
+title: Flatpak
+icon: simple/flatpak
+---
 
 https://flathub.org
 

@@ -1,6 +1,9 @@
 ---
 title: "Terraform / OpenTofu"
 icon: simple/terraform
+tags:
+  - devops
+  - iac
 ---
 Terraform resp. OpenTofu is a tool for IaC.
 

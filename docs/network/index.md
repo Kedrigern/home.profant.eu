@@ -1,6 +1,10 @@
 ---
 title: "Network"
 icon: lucide/network
+tags:
+  - network
+  - vpn
+  - remote
 ---
 
 ## Basics

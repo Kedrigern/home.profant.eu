@@ -1,4 +1,7 @@
-# uv
+---
+title: uv
+icon: simple/uv
+---
 
 An extremely fast Python package and project manager, written in Rust. It replaces pip, pipx, PyEnv and Poetry.
 

@@ -1,6 +1,8 @@
 ---
 title: Linux
 icon: fontawesome/brands/linux
+tags:
+  - os
 ---
 
 `ls` → `eza`, `mv`, `cp`, `mkdir`, `tree`, `grep`

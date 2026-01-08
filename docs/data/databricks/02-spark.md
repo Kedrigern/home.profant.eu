@@ -1,6 +1,11 @@
 ---
 title: "Spark"
 icon: simple/apachespark
+tags:
+  - data
+  - dataframe
+  - python
+  - sql
 ---
 
 Spark is an Apache technology for distributed computing, even on weak hardware. It uses JVM and Scala. PySpark is the Python interface to it.

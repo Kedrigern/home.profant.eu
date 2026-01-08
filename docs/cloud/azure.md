@@ -1,4 +1,7 @@
-# Azure
+---
+title: Azure
+icon: material/microsoft-azure
+---
 
 **Note:** *StorageAccount is not the same as Azure Account. A StorageAccount is specific to storage services and has its own settings like redundancy and access privileges.*
 

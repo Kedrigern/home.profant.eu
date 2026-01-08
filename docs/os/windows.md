@@ -1,6 +1,8 @@
 ---
 title: "Windows"
 icon: fontawesome/brands/windows
+tags:
+  - os
 ---
 
 ## local user managment
