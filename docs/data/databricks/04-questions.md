@@ -1,5 +1,6 @@
 ---
 title: DBX questions
+icon: fontawesome/solid/question
 ---
 
 ## Links

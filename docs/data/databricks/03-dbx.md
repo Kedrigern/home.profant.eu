@@ -1,5 +1,6 @@
 ---
 title: Databricks
+icon: simple/databricks
 ---
 
 Databricks is a commercial solution called a lakehouse (combination of data lake and data warehouse). Mostly known for:
@@ -27,7 +28,7 @@ Your data are organized in **workspace**. Main entities in workspace are:
 - **jobs**: workflows, there are divided into **tasks**.
 - **tables**: structured data
 
-### Unity catalog
+## Unity catalog and privileges
 
 Centralized data governance and access control.
 
@@ -47,12 +48,11 @@ To access a specific table, the user must be granted `SELECT` on the table itsel
 
 **Catalog Explorer**: web UI for browsing catalogs, schemas, tables, and views.
 
-#### Delta sharing
+### Delta sharing
 
 A Delta Sharing identifier is a unique string used in Databricks-to-Databricks sharing to identify a recipient's Unity Catalog metastore. This identifier allows the data provider to grant access to shared data.
 
 The format of the sharing identifier is: `<cloud>:<region>:<uuid>`
-
 
 Example: `aws:us-west-2:19a84bee-54bc-43a2-87de-023d0ec16016`
 
@@ -64,18 +64,68 @@ In this example:
 
 Recipients can obtain their sharing identifier from their Databricks workspace using Catalog Explorer or by running a SQL query like `SELECT CURRENT_METASTORE();`. This identifier is then provided to the data provider, who uses it to create a recipient and grant access to shares.
 
+## Notebooks
+
+DBX contains interactive notebooks:
+
+- Markdown, SQL, python cells, start your cell with `%md`, `%sql`, `%python` to change it
+- Also you can use `%run /path/to/other/notebook` to include another notebook
+- Or `%fs ls '/dir'`
+- predefined variables:
+  - `dbutils`: utilities for file system, secrets, widgets, etc., for example `dbutils.fs.ls('/mnt/data')`. `dbutils.help()` for more info.
+  - `spark`: SparkSession
+  - `sqlContext`: SQL context
+- predefined function:
+  - `display()`: display DataFrame or visualization 
+  - `displayHTML()`: render HTML content
+  - `spark.read` and `spark.write`: read and write data
+- contains interative debugger
+- variable explorer
+- version history
+- limit for output is 30 MB
+
+**Databricks Connect** is a client library for the Databricks Runtime that allows you to connect popular IDEs.
+
+## DevOps
+
+### Assets bundle (DAB)
+
+Databricks Assets Bundles (DABs):
+
+- code in yaml
+- exact definition of Databricks resources 
+
+```yaml
+# databricks.yml
+
+bundle:
+  name: <name>
+
+include:
+  - resources/*.yml
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: {{workspace_host}}
+  prd:
+    mode: production
+    workspace:
+      host: {{workspace_host}}
+```
+
+```yaml
+resources:
+    jobs:
+```
+
 ### Git
 
-Version control for notebooks and code.
+Version control for notebooks and code. Cannot delete branch.
 
-Databricks assets bundles
-
-Cannot delete branch
-
-
-
-
-#### Streaming
+## Data streaming
 
 Continously ingests new data as it arrives. Suitable for real-time data processing. Default interval half second (0.5s).
 
@@ -115,7 +165,7 @@ Force refresh: `REFRESH STREAMING TABLE my_table_name`
 
 By default, if you don’t provide any trigger interval, the data will be processed every half second. This is equivalent to `trigger(processingTime=”500ms")`
 
-##### Metadata and schema mismatches
+### Metadata and schema mismatches
 
 During ingestion you can apply various metadata:
 `_metadata.file_modification_time`
@@ -130,26 +180,14 @@ And handle schema mismatches:
 Ingestion into existing table: `MERGE INTO` (upsert), various strategy. God for slowly chaging dimensions (SCDs), incremental loads, and complex change data capture (CDC).
 
 
-#### Comparasion
+### Comparasion
 
 ![tables](./img/tables.png)
 
 Managed tables: Databricks-managed storage.
 External tables: data stored outside Databricks (e.g., cloud storage).
 
-#### JSON
 
-There are 3 options how to handle JSON in column:
-
-1. Store as a string, it is easy but not efficient.
-    Query with path syntax: `SELECT json_col:address:city FROM table`
-2. Use `Struct` type, better for fixed schema.
-    Derive schema: `SELECT schema_of_json('sample-json-string')`
-    Convert JSON to struct: `SELECT from_json(json_col, 'json-struct-schema') AS struct_column FROM table`
-3. Use `Variant` type, it combinate advantages of both.
-    Store any JSON structure, flexible schema.
-    Parse: `parse_json( jsonStr )`
-    Query with path syntax: `SELECT variant_col:address:city FROM table`
 
 ### Datatypes
 
@@ -235,18 +273,10 @@ AUTO CDC INTO customers
 
 There is also Change Data Feed (CDF) for tracking changes over time (notifiy).
 
-### Assets bundle
-
-Databricks Assets Bundles (DABs):
-
-- code in yaml
-- exact definition of Databricks resources 
 
 ### Miscellaneous
 
 Delta Live Tables (DLT) has been recently renammed to Lakeflow Declarative Pipeline, 
-
-**Databricks Connect** is a client library for the Databricks Runtime that allows you to connect popular IDEs.
 
 ## 4. Sources
 

@@ -1,5 +1,6 @@
 ---
 title: "Spark"
+icon: simple/apachespark
 ---
 
 Spark is an Apache technology for distributed computing, even on weak hardware. It uses JVM and Scala. PySpark is the Python interface to it.
@@ -39,6 +40,32 @@ SELECT * FROM my_table_name WHERE age > 30;
 """
 result = df.sparkSession.sql(sql)
 ```
+
+<div class="grid" markdown>
+
+```SQL
+DESCRIBE HISTORY my_table_name; -- show delta log
+
+DROP TABLE IF EXISTS my_table_name;
+
+SELECT count_if(email IS NULL) FROM users_dirty;
+SELECT count(*) FROM users_dirty WHERE email IS NULL;
+
+SELECT DISTINCT(*) FROM users_dirty;
+```
+
+```python
+
+  
+
+usersDF.selectExpr("count_if(email IS NULL)")
+usersDF.where(col("email").isNull()).count()
+
+usersDF.distinct().count()
+```
+
+</div>
+
 
 Useful SQL commands:
 
@@ -253,3 +280,17 @@ VACUUM table_name { { FULL | LITE } | DRY RUN } [...]
 ```
 
 The retention period is fixed at **7 days**.
+
+### JSON
+
+There are 3 options how to handle JSON in column:
+
+1. Store as a string, it is easy but not efficient.
+    Query with path syntax: `SELECT json_col:address:city FROM table`
+2. Use `Struct` type, better for fixed schema.
+    Derive schema: `SELECT schema_of_json('sample-json-string')`
+    Convert JSON to struct: `SELECT from_json(json_col, 'json-struct-schema') AS struct_column FROM table`
+3. Use `Variant` type, it combinate advantages of both.
+    Store any JSON structure, flexible schema.
+    Parse: `parse_json( jsonStr )`
+    Query with path syntax: `SELECT variant_col:address:city FROM table`
