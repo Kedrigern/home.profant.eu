@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block extrahead %}
+{{ super() }}
+{% if page and page.meta and page.meta.full_width%}
+<style>
+    .md-grid {
+        max-width: 80rem !important;
+
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+</style>
+{% endif %} {% endblock %}

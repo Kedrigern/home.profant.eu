@@ -1,6 +1,7 @@
 ---
 title: Databricks
 icon: simple/databricks
+full_width: true
 ---
 
 Databricks is a commercial solution called a lakehouse (combination of data lake and data warehouse). Mostly known for:
@@ -64,28 +65,6 @@ In this example:
 
 Recipients can obtain their sharing identifier from their Databricks workspace using Catalog Explorer or by running a SQL query like `SELECT CURRENT_METASTORE();`. This identifier is then provided to the data provider, who uses it to create a recipient and grant access to shares.
 
-## Notebooks
-
-DBX contains interactive notebooks:
-
-- Markdown, SQL, python cells, start your cell with `%md`, `%sql`, `%python` to change it
-- Also you can use `%run /path/to/other/notebook` to include another notebook
-- Or `%fs ls '/dir'`
-- predefined variables:
-  - `dbutils`: utilities for file system, secrets, widgets, etc., for example `dbutils.fs.ls('/mnt/data')`. `dbutils.help()` for more info.
-  - `spark`: SparkSession
-  - `sqlContext`: SQL context
-- predefined function:
-  - `display()`: display DataFrame or visualization 
-  - `displayHTML()`: render HTML content
-  - `spark.read` and `spark.write`: read and write data
-- contains interative debugger
-- variable explorer
-- version history
-- limit for output is 30 MB
-
-**Databricks Connect** is a client library for the Databricks Runtime that allows you to connect popular IDEs.
-
 ## DevOps
 
 ### Assets bundle (DAB)
@@ -125,16 +104,158 @@ resources:
 
 Version control for notebooks and code. Cannot delete branch.
 
-## Data streaming
 
-Continously ingests new data as it arrives. Suitable for real-time data processing. Default interval half second (0.5s).
+Here is the translation of the technical summary into English, including short code snippets to illustrate the differences.
 
-- `spark.readStream` (autoloader with continous trigger)
-- Declarative pipeline trigger mode continous
 
-Use cases: sensor data, logs, real-time analytics, sources: Kafka, event hubs, etc.
+## 1. Work Distribution (Orchestration)
 
-Streaming table: The easiest way is to keep adding new files to the storage. This table periodically updates itself automatically with new data. This table is useful for ever-growing data, like data from sensors. It is efficient because it just appends new parquet files containing new data.
+**Job (Workflow):** The unit of orchestration. It is a scheduled workload that defines **WHO** (cluster), **WHEN** (schedule/trigger), and **WHAT** (list of tasks).
+
+* **Usage:** typically used to run production ETL pipelines (e.g., nightly batch).
+
+**Task:** A specific step within a Job.
+
+* Tasks form a **DAG** (Directed Acyclic Graph) to define dependencies (e.g., Task B runs only after Task A succeeds).
+* **Task Types:**
+* **Notebook Task:** Executes a standard notebook (Imperative).
+* **DLT Pipeline Task:** Triggers a DLT pipeline update (Declarative).
+
+**liquid clustering**: Predictive optimization that automatically optimizes data layout based on query patterns. So your data is organized in a way that speeds up your queries.
+
+
+## 2. Development Methodology (Notebook vs. DLT)
+
+### Notebook (Imperative)
+
+You must define the **process**. You are responsible for managing state, checkpoints, and schema enforcement manually.
+
+```python
+# Notebook: You manage the "How"
+# 1. Define Checkpoint (Critical manual step)
+checkpoint_path = "/mnt/checkpoints/users_bronze"
+
+# 2. Read Stream
+df = spark.readStream.load("/mnt/source/users")
+
+# 3. Write Stream (Explicit write command)
+(df.writeStream
+    .format("delta")
+    .option("checkpointLocation", checkpoint_path) # Manual state management
+    .toTable("bronze_users")
+)
+```
+
+### Delta Live Tables - DLT (Declarative)
+
+You define the **target state**. The framework automatically handles infrastructure, checkpoints, lineage, and data quality.
+
+```python
+# DLT: You define the "What"
+import dlt
+
+# 1. Define the target table
+@dlt.table(
+    name="bronze_users",
+    comment="Raw user data"
+)
+def ingest_users():
+    # 2. Return the transformation (No write command, no manual checkpoint)
+    return spark.readStream.load("/mnt/source/users")
+
+```
+
+Delta Live Tables (DLT) has been recently renammed to Lakeflow Declarative Pipeline, 
+
+### noteebook vs Delta Live Table
+
+DLT are declarative and mask complexity about autoloader.
+
+<div class="grid" markdown>
+
+```python title="notebook"
+source_path = "/Volumes/my_catalog/my_schema/inbox/users.csv"
+
+df = spark.read.format("csv") \
+    .option("header", "true") \
+    .load(source_path)
+
+df.write.format("delta") \
+    .mode("append") \
+    .saveAsTable("my_catalog.my_schema.bronze_users")
+```
+ 
+```python title="DLT"
+import dlt
+
+@dlt.table(
+     name="bronze_users",
+     comment="Raw data from CSV loaded incrementally"
+)
+def ingest_users():
+    """
+    Read all what will be in the folder
+    Use Auto Loader
+    """
+    return (
+        spark.readStream.format("cloudFiles")
+        .option("cloudFiles.format", "csv")
+        .load("/Volumes/my_catalog/my_schema/inbox/")
+    )
+```
+
+</div>
+
+## 3. Structured Streaming (Processing Engine)
+
+The core engine for processing data. It processes data in **Micro-batches**. It is used inside both Notebooks and DLT.
+
+### Trigger Modes (Execution Frequency)
+
+**A) Triggered (Batch Mode)**
+
+* **Config:** `.trigger(availableNow=True)`
+* **Behavior:** Processes all available data since the last run, then **stops** the cluster.
+* **Use Case:** Cost-effective periodic jobs (e.g., Daily ETL).
+
+```python
+# Process everything available, then shut down
+df.writeStream \
+  .trigger(availableNow=True) \
+  .toTable("target_table")
+
+```
+
+**B) Continuous (Micro-batch Loop)**
+
+* **Config:** `.trigger(processingTime="10 seconds")`
+* **Behavior:** Runs in a loop. Checks for data every 10 seconds. If the previous batch finished early, it waits. If it took longer, it starts immediately. The cluster runs **24/7**.
+* **Use Case:** Low-latency requirements (near real-time).
+
+```python
+# Check for data every 10 seconds indefinitely
+df.writeStream \
+  .trigger(processingTime="10 seconds") \
+  .toTable("target_table")
+
+```
+
+
+## 4. Auto Loader (Ingestion Tool)
+
+A specific **source** for Structured Streaming optimized for file ingestion from cloud storage (S3/ADLS).
+
+* **Identifier:** `format("cloudFiles")`
+* **Function:** Efficiently detects new files without listing the entire directory.
+
+```python
+# Usage within a Stream (works in both Notebooks and DLT)
+df = (spark.readStream
+      .format("cloudFiles")           # Activates Auto Loader
+      .option("cloudFiles.format", "csv")
+      .load("/mnt/source/incoming_files/")
+)
+```
 
 ```SQL
 CREATE OR REFRESH STREAMING TABLE  my_table_name
@@ -165,7 +286,32 @@ Force refresh: `REFRESH STREAMING TABLE my_table_name`
 
 By default, if you don’t provide any trigger interval, the data will be processed every half second. This is equivalent to `trigger(processingTime=”500ms")`
 
-### Metadata and schema mismatches
+## Notebooks
+
+DBX contains interactive notebooks:
+
+- Markdown, SQL, python cells, start your cell with `%md`, `%sql`, `%python` to change it
+- Also you can use `%run /path/to/other/notebook` to include another notebook
+- Or `%fs ls '/dir'`
+- predefined variables:
+  - `dbutils`: utilities for file system, secrets, widgets, etc., for example `dbutils.fs.ls('/mnt/data')`. `dbutils.help()` for more info.
+  - `spark`: SparkSession
+  - `sqlContext`: SQL context
+- predefined function:
+  - `display()`: display DataFrame or visualization 
+  - `displayHTML()`: render HTML content
+  - `spark.read` and `spark.write`: read and write data
+- contains interative debugger
+- variable explorer
+- version history
+- limit for output is 30 MB
+
+**Databricks Connect** is a client library for the Databricks Runtime that allows you to connect popular IDEs.
+
+
+
+
+## Metadata and schema mismatches
 
 During ingestion you can apply various metadata:
 `_metadata.file_modification_time`
@@ -180,7 +326,7 @@ And handle schema mismatches:
 Ingestion into existing table: `MERGE INTO` (upsert), various strategy. God for slowly chaging dimensions (SCDs), incremental loads, and complex change data capture (CDC).
 
 
-### Comparasion
+## Comparasion
 
 ![tables](./img/tables.png)
 
@@ -188,8 +334,7 @@ Managed tables: Databricks-managed storage.
 External tables: data stored outside Databricks (e.g., cloud storage).
 
 
-
-### Datatypes
+## Datatypes
 
 **STREAMING TABLE:**
 
@@ -227,7 +372,7 @@ Limitations of views:
 - the pipeline must be a Unity Catalog pipeline
 - views cannot have streaming queries, or be used as a streaming source
 
-CONSTRAINTS:
+## CONSTRAINTS
 
 Levels:
 WARN  default, row is written but a warning is logged
@@ -246,8 +391,10 @@ AS SELECT ...
 
 **JOINS**
 
+```
 streaming table -> joined streaming table <- static table
 streaming table -> materialized view <- streaming table
+```
 
 **CDC**
 
@@ -273,29 +420,7 @@ AUTO CDC INTO customers
 
 There is also Change Data Feed (CDF) for tracking changes over time (notifiy).
 
-
-### Miscellaneous
-
-Delta Live Tables (DLT) has been recently renammed to Lakeflow Declarative Pipeline, 
-
 ## 4. Sources
-
-### Jobs
-
-Jobs are workflows, there are divided into **tasks**. Tasks are independent units of work that can be executed in parallel. Order is defined by Directed Acyclic Graph (DAG).
-
-Jobs and tasks has input parameters, output parameters, and dependencies.
-
-Jobs can be triggered manually or automatically based on schedules, or even triggered by events. For example triggered by update some tables. There are even condition triggers.
-
-
-### Misc
-
-Databricks Connect:" is a client library for the Databricks Runtime that allows you to connect popular IDEs (like PyCharm, VS Code, Jupyter Notebooks) to Databricks clusters. This enables you to write and test code locally while leveraging the power of Databricks for execution.
-## 5. Sources
-
-TODO:
-  liquid clustering
 
 https://airflow.apache.org/
 https://www.dask.org/

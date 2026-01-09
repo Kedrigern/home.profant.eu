@@ -3,6 +3,7 @@ site_url: https://home.profant.eu/
 
 theme:
   name: material
+  custom_dir: overrides
   features:
     - content.code.annotate
     - content.code.copy
@@ -42,6 +43,9 @@ markdown_extensions:
   - admonition
   - pymdownx.tabbed:
       alternate_style: true
+
+plugins:
+  - toggle-sidebar
 
 extra_css:
   - stylesheets/extra.css
