@@ -7,7 +7,27 @@ tags:
   - remote
 ---
 
-## Basics
+## Ethernet
+
+| Category   |	Max. Data Rate| 	Bandwidth |	Max. distance |	Usage|
+|------------|---------------:|------------:|---------------:|-------------------------------|
+| Category 5 |      100 Mbps	|     100 MHz |	100 m |	100BaseT Ethernet |
+| Category 5e| 	       1 Gbps | 	  100 MHz |	100 m |	100BaseT Ethernet, residential homes |
+| Category 6 |	       1 Gbps |	    250 MHz |	100 m |	Gigabit Ethernet, commercial buildings |
+| Category 6a|  	    10 Gbps |	    500 MHz |	100 m | Gigabit Ethernet in data centers and commercial buildings |
+
+![Ethernet cable categories](RJ45.jpg)
+
+| # | 	Type 568A |	Type 568B |
+|---|-------------|-------------|
+| 1.| bílo - zelený | 	bílo - oranžový |
+| 2.| zelený 	 | oranžový| 
+| 3.| bílo - oranžový |	bílo - zelený|
+| 4.| modrý     |	modrý |
+| 5.|  	modro - bílý |	modro - bílý|
+| 6.|  	oranžový 	|zelený|
+| 7.|  	bílo - hnědý |	bílo - hnědý|
+| 8.|  	hnědý |	hnědý|
 
 ## Tailscale
 

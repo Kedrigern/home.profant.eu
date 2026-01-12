@@ -15,6 +15,7 @@
 - tmux
 - zellij
 - ekphos
+- fastfetch
 
 ## Python
 
