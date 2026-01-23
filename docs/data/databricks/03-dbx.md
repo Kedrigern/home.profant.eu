@@ -110,14 +110,15 @@ Version control for notebooks and code. Cannot delete branch.
 
 **Job (Workflow):** The unit of orchestration. It is a scheduled workload that defines **WHO** (cluster), **WHEN** (schedule/trigger), and **WHAT** (list of tasks).
 
-* **Usage:** typically used to run production ETL pipelines (e.g., nightly batch).
+**Usage:** typically used to run production ETL pipelines (e.g., nightly batch).
 
 **Task:** A specific step within a Job.
 
 * Tasks form a **DAG** (Directed Acyclic Graph) to define dependencies (e.g., Task B runs only after Task A succeeds).
 * **Task Types:**
-* **Notebook Task:** Executes a standard notebook (Imperative).
-* **DLT Pipeline Task:** Triggers a DLT pipeline update (Declarative).
+  
+  * **Notebook Task:** Executes a standard notebook (Imperative).
+  * **DLT Pipeline Task:** Triggers a DLT pipeline update (Declarative).
 
 **liquid clustering**: Predictive optimization that automatically optimizes data layout based on query patterns. So your data is organized in a way that speeds up your queries.
 
