@@ -25,6 +25,7 @@ Lakeflow connect: integrates with various data sources (files, cloud storage, Ka
 Supports batch, incremental, and streaming modes.
 
 Your data are organized in **workspace**. Main entities in workspace are:
+
 - **notebooks**: interactive code cells, syntax: Python, SQL, Markdown
 - **jobs**: workflows, there are divided into **tasks**.
 - **tables**: structured data
@@ -103,9 +104,6 @@ resources:
 ### Git
 
 Version control for notebooks and code. Cannot delete branch.
-
-
-Here is the translation of the technical summary into English, including short code snippets to illustrate the differences.
 
 
 ## 1. Work Distribution (Orchestration)
