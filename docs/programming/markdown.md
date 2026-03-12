@@ -1,3 +1,7 @@
+---
+icon: simple/markdown
+---
+
 !!! note
     Toto je poznámka s výchozím nadpisem.
 

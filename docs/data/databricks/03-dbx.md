@@ -109,8 +109,8 @@ Version control for notebooks and code. Cannot delete branch.
 ## 1. Work Distribution (Orchestration)
 
 **Job (Workflow):** The unit of orchestration. It is a scheduled workload that defines **WHO** (cluster), **WHEN** (schedule/trigger), and **WHAT** (list of tasks).
-
 **Usage:** typically used to run production ETL pipelines (e.g., nightly batch).
+
 
 **Task:** A specific step within a Job.
 

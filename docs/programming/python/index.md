@@ -1,4 +1,5 @@
 ---
+title: Python
 icon: fontawesome/brands/python
 ---
 

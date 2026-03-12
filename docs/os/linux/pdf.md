@@ -8,3 +8,7 @@ Mass decrypt and concat pdfs via fish:
 for f in crypt/*.pdf; qpdf --password='<password>' --decrypt $f ( basename $f ); end
 qpdf --empty --pages *.pdf 1 -- "output.pdf"
 ```
+
+### gopdfsuit
+
+[gopdfsuit](https://github.com/chinmay-sawant/gopdfsuit)

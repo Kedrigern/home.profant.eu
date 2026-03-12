@@ -1,3 +1,7 @@
+---
+icon: simple/numpy
+---
+
 
 High performance compiler: [numba](https://numba.pydata.org/)
 
