@@ -113,3 +113,8 @@ Typical files: `settings.json` for general settings, `keybindings.json` for shor
     },
   ]
   ```
+
+
+### PyCharm
+
+When you have package / src layout, you need to mark `src` as "Sources Root" in PyCharm.
