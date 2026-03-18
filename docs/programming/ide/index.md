@@ -24,6 +24,7 @@ Local exlude from git: `.git/info/exclude`, great for ignoring IDE specific file
 | `Ctrl+Alt+B` | Show/Hide right dock | ✓ ||
 | `Ctrl+Shift+E` | Project panel (tree) | ✓ ||
 | `Ctrl+Shift+G` | Git panel | ✓ ||
+| `Alt+click` | Multicurrsor | ✓ ||
 
 ### Configuration tips
 
