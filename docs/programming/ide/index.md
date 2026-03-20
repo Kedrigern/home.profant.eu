@@ -114,8 +114,30 @@ Typical files: `settings.json` for general settings, `keybindings.json` for shor
     },
   ]
   ```
+  
+6) Turn off autoformating for one format, `settings.json`:
 
+```json
+{
+  "languages": {
+    "YAML": {
+      "formatter": "language_server",
+    },
+  },
+  "lsp": {
+    "yaml-language-server": {
+      "settings": {
+        "yaml": {
+          "format": {
+            "enable": false,
+          },
+        },
+      },
+    },
+  },
+}
+```
 
 ### PyCharm
 
-When you have package / src layout, you need to mark `src` as "Sources Root" in PyCharm.
+When you have package / src layout, you need to mark `src` as "Sources Root" in PyCharm to proper autohelp etc.
