@@ -53,9 +53,10 @@ $ pg_dumpall > outfile
 $ psql dbname < my_db
 ```
 
-#### PG setup
+#### Install / setup
+
 ```console
-$ sudo systemctl enable postgresql
+$ sudo dnf install postgresql-server postgresql-contrib
 $ sudo postgresql-setup --initdb --unit postgresql
 $ sudo systemctl start postgresql
 $ sudo -u postgres psql
