@@ -1,4 +1,10 @@
+---
+title: Go
+icon: simple/go
+---
+
 ## 1. Ecosystem & CLI
+
 * **Init module:** `go mod init <module-name>` (creates `go.mod`).
 * **Run dev:** `go run main.go` (compiles to temp, runs, deletes).
 * **Build binary:** `go build` (creates a statically linked executable).
