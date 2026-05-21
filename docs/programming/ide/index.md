@@ -14,18 +14,18 @@ Local exlude from git: `.git/info/exclude`, great for ignoring IDE specific file
 
 ### Shorcuts
 
-| Shotcut | Action | Default| Note |
-|---------|--------|--------|-------|
+| Shotcut        | Action               | Default | Note     |
+|----------------|----------------------|---------|----------|
 | `Ctrl+Shift+P` | Open command palette | ✓ ||
-| `Ctrl+S` | Save file | ✓ ||
-| `Ctrl+P  | Open file | ✓ | for example copy file location from GH |
-| `Ctrl+Z` | Undo last change | ✓ ||
-| `Ctrl+J` | Show/Hide terminal | ✓ ||
-| `Ctrl+B` | Show/Hide left dock | ✓ ||
-| `Ctrl+Alt+B` | Show/Hide right dock | ✓ ||
+| `Ctrl+S`       | Save file            | ✓ ||
+| `Ctrl+P`       | Open file            | ✓ | for example copy file location from GH |
+| `Ctrl+Z`       | Undo last change     | ✓ ||
+| `Ctrl+J`       | Show/Hide terminal   | ✓ ||
+| `Ctrl+B`       | Show/Hide left dock  | ✓ ||
+| `Ctrl+Alt+B`   | Show/Hide right dock | ✓ ||
 | `Ctrl+Shift+E` | Project panel (tree) | ✓ ||
-| `Ctrl+Shift+G` | Git panel | ✓ ||
-| `Alt+click` | Multicurrsor | ✓ ||
+| `Ctrl+Shift+G` | Git panel            | ✓ ||
+| `Alt+click`    | Multicurrsor         | ✓ ||
 
 ### Configuration tips
 
