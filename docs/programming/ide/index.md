@@ -18,6 +18,7 @@ Local exlude from git: `.git/info/exclude`, great for ignoring IDE specific file
 |---------|--------|--------|-------|
 | `Ctrl+Shift+P` | Open command palette | ✓ ||
 | `Ctrl+S` | Save file | ✓ ||
+| `Ctrl+P  | Open file | ✓ | for example copy file location from GH |
 | `Ctrl+Z` | Undo last change | ✓ ||
 | `Ctrl+J` | Show/Hide terminal | ✓ ||
 | `Ctrl+B` | Show/Hide left dock | ✓ ||
