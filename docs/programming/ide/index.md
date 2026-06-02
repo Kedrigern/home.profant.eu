@@ -174,6 +174,9 @@ To bypass this limitation, you can force Zed into an isolated "sandbox" profile 
     StartupNotify=true
     StartupWMClass=zed
     ```
+5. How to verify which account: 
+  - In ZED: `ctrl+shift+P` -> `zed: open log` -> search `user`
+  - From gh copilot config: `sqlite3 ~/.config/zed-<customer>/github-copilot/auth.db "SELECT user_login FROM oauth_tokens;"`
 
 
 
