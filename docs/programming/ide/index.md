@@ -26,7 +26,7 @@ Local exlude from git: `.git/info/exclude`, great for ignoring IDE specific file
 | `Ctrl+Shift+E` | Project panel (tree) | ✓ ||
 | `Ctrl+Shift+G` | Git panel            | ✓ ||
 | `Alt+click`    | Multicurrsor         | ✓ ||
-| `Alt+shift+T   | Open tasks           | ✓ ||
+| `Alt+shift+T`  | Open tasks           | ✓ ||
 
 ### Configuration tips
 
@@ -146,7 +146,7 @@ Typical files: `settings.json` for general settings, `keybindings.json` for shor
 
 **The Solution**: XDG Environment Isolation.
 
-To bypass this limitation, you can force Zed into an isolated "sandbox" profile by overriding Linux XDG base directory variables (XDG_CONFIG_HOME and XDG_DATA_HOME). This forces Zed to create separate config files, extensions, and a distinct Copilot token for each client/project context.
+To bypass this limitation, you can force Zed into an isolated "sandbox" profile by overriding Linux XDG base directory variables (`XDG_CONFIG_HOME` and `XDG_DATA_HOME`). This forces Zed to create separate config files, extensions, and a distinct Copilot token for each client/project context.
 
 1. Directory Structure Setup: Create dedicated directories for the new profile (e.g., customer-a) to store its independent configuration and data state.
   ```
@@ -155,26 +155,25 @@ To bypass this limitation, you can force Zed into an isolated "sandbox" profile 
   ```
 2. Icons & Visual Distinction
   To prevent deployment mistakes, use distinct window themes and separate application launcher icons for each profile.
-  Default Icon Location: ~/.local/zed.app/share/icons/hicolor/512x512/apps/zed.png
+  Default Icon Location: `~/.local/zed.app/share/icons/hicolor/512x512/apps/zed.png`
   Setup Custom Icon: Copy the default icon to the profile folder and alter its hue (via GIMP) or replace it with a colored alternative.
 3. CLI Execution & Shell Alias
-  To launch the isolated instance from the terminal, inject the environment variables before invoking the binary: `XDG_CONFIG_HOME=~/.config/zed-customera XDG_DATA_HOME=~/.local/share/zed-customera ~/.local/zed.app/bin/zed .`
+  To launch the isolated instance from the terminal, inject the environment variables before invoking the binary: `XDG_CONFIG_HOME=~/.config/zed-customerA XDG_DATA_HOME=~/.local/share/zed-customerA ~/.local/zed.app/bin/zed .`
 4. GNOME Desktop Integration
   To make the profile searchable via the Super key and pinnable to the GNOME Dash/Dock, create a custom desktop launcher entry.
   Note: `.desktop` files do not support the tilde (~) shortcut. Absolute file paths must be declared.
-
-  ```toml
-  [Desktop Entry]
-  Type=Application
-  Name=Zed (Customer A)
-  Comment=Isolated Zed Profile for Customer A Workflow
-  Exec=env XDG_CONFIG_HOME=/home/<user>/.config/zed-customera XDG_DATA_HOME=/home/<user>>/.local/share/zed-customera /home/<user>>/.local/zed.app/bin/zed %U
-  Icon=/home/<user>/.config/zed-customera/icon.png
-  Terminal=false
-  Categories=Development;TextEditor;
-  StartupNotify=true
-  StartupWMClass=zed
-  ```
+    ```toml
+    [Desktop Entry]
+    Type=Application
+    Name=Zed (Customer A)
+    Comment=Isolated Zed Profile for Customer A Workflow
+    Exec=env XDG_CONFIG_HOME=/home/<user>/.config/zed-customera XDG_DATA_HOME=/home/<user>>/.local/share/zed-customera /home/<user>>/.local/zed.app/bin/zed %U
+    Icon=/home/<user>/.config/zed-customera/icon.png
+    Terminal=false
+    Categories=Development;TextEditor;
+    StartupNotify=true
+    StartupWMClass=zed
+    ```
 
 
 
