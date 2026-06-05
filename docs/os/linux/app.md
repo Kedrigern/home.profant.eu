@@ -16,14 +16,19 @@
 - zellij
 - ekphos
 - fastfetch
+- difftastic
+- lazygit
 
 ## Python
 
 - uv
 
+## Go
+
+- golang
+
 ## IDE and dev
 
-- VScode
 - zed
 - Restfox
 - meld
@@ -35,6 +40,5 @@
 ## Games
 
 - vcmi
-- steam
-- lutris
-- gog
+- Steam
+- Heroic Games Launcher (gog)
