@@ -11,18 +11,20 @@ $ git init
 $ git add <files>
 $ git commit -m <message>
 
-git stash push -m "popis"
+git stash push -m "commit message"
 git stash list
 git stash pop
 
 git gui
 
-git branch --list       # výpis
-git branch <brname>     # nová větev
-git checkout <brnamne>  # změna větve
+git branch --list       
+git branch <brname>     # new branch
+git checkout <brnamne>  # change branch
 
-git branch -d <název_lokální_větve>  # Smaže, pokud je mergovaná
-git branch -D <název_lokální_větve>  # Smaže bez ohledu na stav (používejte opatrně)
+git checkout <brname> <file> # checkout only given file from the given branch
+
+git branch -d <název_lokální_větve>  # Delete if it is already merged
+git branch -D <název_lokální_větve>  # Force delete
 
 # Set a new remote
 git remote add origin https://github.com/OWNER/REPOSITORY.git
@@ -56,7 +58,13 @@ $ git log --graph --decorate --oneline
 * f430b2e Initial commit
 ```
 
-## Multiple keys
+## Tips
+
+- [Conventional Commits](https://www.conventionalcommits.org)
+- [LazyGit](https://github.com/jesseduffield/lazygit)
+- [Diffstatic](https://github.com/wilfred/difftastic)
+
+## Multiple ssh keys
 
 ```console
 $> cat ~/.ssh/config
