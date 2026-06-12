@@ -4,6 +4,14 @@ icon: fontawesome/solid/play
 #icon: material/stadia_controller
 ---
 
+## Heic
+
+```console
+heif-convert <input>.heif <output>.jpg
+```
+
+## Video
+
 CLI player: `mpv`, otherwise `vlc`
 
 Extract audio from video:
