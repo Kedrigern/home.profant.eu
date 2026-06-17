@@ -11,3 +11,11 @@ Gaming on Linux!
 ## Beyond All Reason
 
 [https://www.beyondallreason.info](https://www.beyondallreason.info)
+
+## VCMI
+
+https://vcmi.eu/
+
+## MagArena
+
+https://magarena.github.io/
