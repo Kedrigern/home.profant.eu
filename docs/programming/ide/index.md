@@ -140,6 +140,10 @@ Typical files: `settings.json` for general settings, `keybindings.json` for shor
 }
 ```
 
+#### Grammar check
+
+[Harper](https://github.com/automattic/harper) has Zed extension. Local dict is: `/home/keddie/.config/zed-<customerA>/harper-ls/dictionary.txt`
+ 
 #### Multi-Profile & Copilot Isolation (Linux)
 
 **The Problem**: GitHub Copilot stores its authentication token globally per OS user inside `~/.config/github-copilot/hosts.json`. Because Zed lacks native multi-profile switching, it will always use this single global identity. Furthermore, browser security features like Multi-Account Containers disrupt desktop application OAuth redirection, resulting in account mismatches.
