@@ -1,6 +1,7 @@
 ---
 title: "Spark syntax"
 icon: simple/apachespark
+full_width: true
 tags:
   - data
   - sql
